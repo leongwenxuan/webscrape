@@ -3,14 +3,11 @@ const cheerio = require('cheerio');
 const moment = require("moment");
 
 
-function getdata() {
-
-request('https://www.bridestory.com/blog', (error, response, html) => {
+const getArticles = request('https://www.bridestory.com/blog', (error, response, html) => {
     if (!error && response.statusCode == 200) {
         const $ = cheerio.load(html);
 
         $('.wrapper-white').each((i, el) => {
-            const articles = [];
 
             const title = $(el)
             .find('.blog-title')
@@ -26,7 +23,7 @@ request('https://www.bridestory.com/blog', (error, response, html) => {
 
             
 
-            const artdat = {
+            return {
                 title : title,
                 link : link,
                 image : image,
@@ -34,15 +31,12 @@ request('https://www.bridestory.com/blog', (error, response, html) => {
                 date : date
             }
 
-            articles.push(artdat);
-            return articles;
-
         });
     }
 });
 
-}
+console.log(getArticles)
 
 module.exports = {
-    getdata
+    getArticles
 };
